@@ -40,16 +40,16 @@ Verify that the Docker container is running:
 docker ps
 ```
 ### 5. Connect to SQL Server using Visual Studio Code
-Install the SQL Server (mssql) extension in Visual Studio Code.
-Click on the SQL Server extension icon in the sidebar and select Add Connection.
-In the connection settings, enter the following details:
-Server name: localhost
-Authentication Type: SQL Login
-User name: sa
-Password: yourStrong#Password
-Check the option to save the password.
-Click Connect.
-A notification will appear at the bottom; click Enable Trust Server Certificate.
+1. Install the SQL Server (mssql) extension in Visual Studio Code.
+2. Click on the SQL Server extension icon in the sidebar and select Add Connection.
+3. In the connection settings, enter the following details:
+- Server name: localhost
+- Authentication Type: SQL Login
+- User name: sa
+- Password: yourStrong#Password
+4. Check the option to save the password.
+5. Click Connect.
+6. A notification will appear at the bottom; click Enable Trust Server Certificate.
 ### 6. Execute Database Scripts
 Navigate to the folder containing the API project in Visual Studio Code. Locate the database folder and find the db.sql file. Execute the SQL scripts contained in this file to set up the database schema and initial data.
 
