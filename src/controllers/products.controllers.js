@@ -121,3 +121,119 @@ export const deleteProduct = async (req, res) => {
         }
         return res. json({message: "Product deleted"});
         };
+
+        // Cuenta
+export const getCuenta = async (req, res) => {
+    const pool = await getConnection();
+    const result = await pool.request().query('SELECT * FROM cuenta WHERE id = 1');
+    res.json(result.recordset[0]);
+};
+
+export const createCuenta = async (req, res) => {
+    console.log(req.body);
+    const pool = await getConnection();
+    const result = await pool
+        .request()
+        .input('correo', sql.VarChar(100), req.body.correo)
+        .input('contraseña', sql.VarChar(100), req.body.contraseña)
+        .query('INSERT INTO cuenta (id, correo, contraseña) VALUES (1, @correo, @contraseña)');
+    console.log(result);
+    res.json({
+        id: 1,
+        correo: req.body.correo,
+        contraseña: req.body.contraseña
+    });
+};
+
+// Contrasenas
+export const getContrasenas = async (req, res) => {
+    const pool = await getConnection();
+    const result = await pool.request().query('SELECT * FROM contrasenas');
+    res.json(result.recordset);
+};
+
+export const createContrasenas = async (req, res) => {
+    console.log(req.body);
+    const pool = await getConnection();
+    const result = await pool
+        .request()
+        .input('nombre', sql.VarChar(100), req.body.nombre)
+        .input('contraseña', sql.VarChar(100), req.body.contraseña)
+        .query('INSERT INTO contrasenas (nombre, contraseña) VALUES (@nombre, @contraseña); SELECT SCOPE_IDENTITY() AS id');
+    console.log(result);
+    res.json({
+        id: result.recordset[0].id,
+        nombre: req.body.nombre,
+        contraseña: req.body.contraseña
+    });
+};
+
+export const deleteContrasenas = async (req, res) => {
+    const pool = await getConnection();
+    const result = await pool
+        .request()
+        .input("id", sql.Int, req.params.id)
+        .query("DELETE FROM contrasenas WHERE id = @id");
+    console.log(result);
+    if (result.rowsAffected[0] === 0) {
+        return res.status(404).json({ message: "Contrasena not found" });
+    }
+    return res.json({ message: "Contrasena deleted" });
+};
+
+// Preguntas_Respuestas
+export const getPreguntas_respuestas = async (req, res) => {
+    const pool = await getConnection();
+    const result = await pool.request().query('SELECT * FROM preguntas_respuestas');
+    res.json(result.recordset);
+};
+
+export const createPreguntas_respuestas = async (req, res) => {
+    console.log(req.body);
+    const pool = await getConnection();
+    const result = await pool
+        .request()
+        .input('pregunta', sql.Text, req.body.pregunta)
+        .input('respuesta', sql.Text, req.body.respuesta)
+        .query('INSERT INTO preguntas_respuestas (pregunta, respuesta) VALUES (@pregunta, @respuesta); SELECT SCOPE_IDENTITY() AS id');
+    console.log(result);
+    res.json({
+        id: result.recordset[0].id,
+        pregunta: req.body.pregunta,
+        respuesta: req.body.respuesta
+    });
+};
+
+export const deletePreguntas_respuestas = async (req, res) => {
+    const pool = await getConnection();
+    const result = await pool
+        .request()
+        .input("id", sql.Int, req.params.id)
+        .query("DELETE FROM preguntas_respuestas WHERE id = @id");
+    console.log(result);
+    if (result.rowsAffected[0] === 0) {
+        return res.status(404).json({ message: "Pregunta_Respuesta not found" });
+    }
+    return res.json({ message: "Pregunta_Respuesta deleted" });
+};
+
+// Consejos
+export const getConsejos = async (req, res) => {
+    const pool = await getConnection();
+    const result = await pool.request().query('SELECT * FROM consejos');
+    res.json(result.recordset);
+};
+
+export const createConsejos = async (req, res) => {
+    console.log(req.body);
+    const pool = await getConnection();
+    const result = await pool
+        .request()
+        .input('consejo', sql.Text, req.body.consejo)
+        .query('INSERT INTO consejos (consejo) VALUES (@consejo); SELECT SCOPE_IDENTITY() AS id');
+    console.log(result);
+    res.json({
+        id: result.recordset[0].id,
+        consejo: req.body.consejo
+    });
+};
